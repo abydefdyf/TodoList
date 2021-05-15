@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+</head>
+<body>
+<main role="main" class="container" >
+    <form action="/todo.html" method="post"
+          enctype="multipart/form-data">
+        <div class="form-group">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Todo</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="task : ${tasks}">
+                    <td th:text="${task.getTask()}">Список задач</td>
+                    <td th:text="${task.isDone()}">Выполнено</td>
+                    <td scope="col"><a class="btn btn-outline-secondary" href="/doneTask.html" th:href="@{/doneTask.html(taskId = ${task.getId()},doneTask = ${task.isDone()})}">Выполнить!</a></td>
+                    <td scope="col"><a class="btn btn-primary" href="/deleteTask.html"
+                                       th:href="@{/deleteTask.html(deleteTask=${task.getId()})}">Удалить задание</a></td>
+                </tr>
+                <td scope="col">
+                    <input type="text" name="task" value="" placeholder="Введите задание"/></td>
+                <td scope="col">
+                    <input type="submit" value="Отправить"></td>
+                </tbody>
+            </table>
+            <p scope="col"><a class="btn btn-primary"
+                              href="/deleteList.html"
+            >Удалить список</a></p>
+        </div>
+    </form>
+    <div th:if="${errorDoneTask}">Ошибка:Задание уже выполнено!<a class="btn btn-primary"
+                                                          href="/todo.html"
+    >Вернуться к списку</a></div>
+    <div th:if="${errorTextNotFound}">Ошибка:Заполните поле задания!<a class="btn btn-primary"
+                                                               href="/todo.html"
+    >Вернуться к списку</a></div>
+</main>
+</body>
+</html>
